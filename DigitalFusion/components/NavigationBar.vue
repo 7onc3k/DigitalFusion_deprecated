@@ -1,36 +1,59 @@
 <template>
-    <nav class="p-4 bg-transparent">
-      <ul class="flex justify-between items-center container mx-auto">
-        <li><a href="/" class="text-white">Logo</a></li>
-        <div class="bg-white h-14 p-2 rounded-full shadow-md flex space-x-4 items-center">
-          <li><a href="/" :class="isActive('/')"><i class="fas fa-home text-black px-4 py-2 rounded-full"></i></a></li>
-          <li><a href="/about" :class="isActive('/about')"><i class="fas fa-user text-black px-4 py-2 rounded-full"></i></a></li>
-          <li><a href="/projects" :class="isActive('/projects')"><i class="fas fa-crane text-black px-4 py-2 rounded-full"></i></a></li>
-          <li><a href="/contact" :class="isActive('/contact')"><i class="fas fa-envelope text-black px-4 py-2 rounded-full"></i></a></li>
-        </div>
-        <button @click="showMenu = !showMenu" class="md:hidden">
-          ☰
-        </button>
-      </ul>
-    </nav>
-</template>
-
-<script>
+    <div class="navbar">
+      <div class="links" :style="{ transform: `translateX(${moveAmount}%)` }">
+        <nuxt-link v-for="link in links" :key="link.name" :to="link.path" :class="{ active: isActive(link.path) }">{{ link.name }}</nuxt-link>
+      </div>
+    </div>
+  </template>
+  
+  <script>
   export default {
     data() {
       return {
-        showMenu: false
+        links: [
+          { name: 'Home', path: '/' },
+          { name: 'About', path: '/about' },
+          { name: 'Projects', path: '/projects' },
+          { name: 'Contact', path: '/contact' }
+        ]
       }
     },
     computed: {
-      currentPath() {
-        return this.$route.path;
+      moveAmount() {
+        const index = this.links.findIndex(link => this.isActive(link.path));
+        return -index * 25 + 37.5;  // Posuneme o 37.5% (polovina šířky odkazu a gapu mezi odkazy) ke středu
       }
     },
     methods: {
       isActive(path) {
-        return this.currentPath === path ? 'bg-blue-500' : '';
+        return this.$route.path === path;
       }
     }
   }
-</script>
+  </script>
+  
+  <style scoped>
+  .navbar {
+    display: flex;
+    justify-content: center;
+    overflow: hidden;
+    width: 100%;
+    position: relative;
+  }
+  
+  .links {
+    display: flex;
+    gap: 20px;
+    transition: transform 0.3s ease;
+  }
+  
+  nuxt-link {
+    width: 100px;
+    text-align: center;
+  }
+  
+  .active {
+    font-weight: bold;
+  }
+  </style>
+  
