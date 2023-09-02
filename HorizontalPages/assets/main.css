@@ -1,0 +1,13 @@
+.container {
+    display: flex;
+    overflow-x: hidden;
+    height: 100vh;
+    width: 100vw;
+    scroll-behavior: smooth;
+  }
+  
+  .page {
+    min-width: 100vw;
+    height: 100vh;
+  }
+  
