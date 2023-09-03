@@ -6,7 +6,7 @@
     </div>
   </template>
   
-  <script>
+  <script>a
   export default {
     data() {
       return {
